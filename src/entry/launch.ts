@@ -12,6 +12,7 @@ const redirectUri: string = './';
 // local -> 'client_id': '1c652be5-6c5c-4844-a038-1efd6cd9c3dd',
 // 'client_id': '610bf39e-e89f-4a6b-b675-1015516d6f7d',
 // 'client_id': 'a9f3d781-004b-4e1a-9c1a-55875723438b',
+//  test_app: '2c9645fc-b344-4649-a00d-0d6393856ede'
 
 /* istanbul ignore file */
 FHIR.oauth2.authorize({
