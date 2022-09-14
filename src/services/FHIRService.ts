@@ -330,37 +330,42 @@ export const FHIRServiceHelper = {
             .sort((a, b) => Date.parse(b.effectiveDateTime) - Date.parse(a.effectiveDateTime));
 
         if (sortedObservations.length === 0) return undefined;
-
-        const newestObservation: any[] = [];
-        let matchingObservationComponent: any;
-        newestObservation.push(sortedObservations[0]);  // use the single newest
-
-        if (newestObservation[0].component) {  // if has components
-            matchingObservationComponent = newestObservation[0].component
-                .filter((obsComponent: any) => obsComponent?.valueQuantity?.value && obsComponent?.valueQuantity?.unit)
-                .find((obsComponent: any) => obsComponent?.code?.coding?.some((codeEl: any) => codes.includes(codeEl.code)));
-            if (!!matchingObservationComponent) {
-              matchingObservationComponent.effectiveDateString = newestObservation[0].effectiveDateTime;
-            }
-
-        } else {// no .component, single observation
-            matchingObservationComponent = newestObservation
-                .map((observation: any) => ({...observation, effectiveDateString: observation.effectiveDateTime}))
-                .filter((obsComponent: any) => obsComponent?.valueQuantity?.value && obsComponent?.valueQuantity?.unit)
-                .find((obsComponent: any) => obsComponent?.code?.coding?.some((codeEl: any) => codes.includes(codeEl.code)));
+        const newestObv: any = sortedObservations.find(x => {
+            return (
+                // Scenario 1: Does not have component, but has valueQuantity.value && valueQuantity.unit
+                ((!x.component && x?.valueQuantity?.value && x?.valueQuantity?.unit) || 
+                
+                // Scenario 2: Has component, component length > 0 (because we're going 
+                // to refer to the first element [0] below), and that first element has
+                // valueQuantity.value && valueQuantity.unit
+                (x.component && x.component.length > 0 &&
+                x.component[0]?.valueQuantity?.value && 
+                x.component[0]?.valueQuantity?.unit &&
+		        x.component[0]?.code?.coding?.some((codeEl: any) => codes.includes(codeEl.code))
+		        )) 
+            );
+        });
+        
+        let result: Measurement | undefined = undefined;
+        if (newestObv.component) { // Scenario 2 above
+            const hasInterestingCode = newestObv.component[0]?.code?.coding
+                .some((codeEl: any) => codes.includes(codeEl.code));
+            result = (hasInterestingCode) ? {
+                value         : newestObv.component[0].valueQuantity.value,
+                unit          : newestObv.component[0].valueQuantity.unit,
+                effectiveEpoch: Date.parse(newestObv.effectiveDateTime)
+            } : undefined;
+        } else { // Scenario 1 above
+            const hasInterestingCode = newestObv?.code?.coding
+                .some((codeEl: any) => codes.includes(codeEl.code));
+            result = (hasInterestingCode) ? {
+                value         : newestObv.valueQuantity.value,
+                unit          : newestObv.valueQuantity.unit,
+                effectiveEpoch: Date.parse(newestObv.effectiveDateTime)
+            } : undefined;
         }
-
-        const measurableObservation: Measurement | undefined = matchingObservationComponent ?
-            {
-                value: matchingObservationComponent.valueQuantity.value,
-                unit: matchingObservationComponent.valueQuantity.unit,
-                effectiveEpoch: Date.parse(matchingObservationComponent.effectiveDateString)
-            } :
-            undefined;
-
-        //console.log(`Resolving measurable observation [${kind}, ${groupName}] => ${JSON.stringify(measurableObservation)}`)
-
-        return measurableObservation;
+        
+        return result;
     },
 
     resolveBooleanCondition: (
