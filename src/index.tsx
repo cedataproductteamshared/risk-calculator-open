@@ -1,9 +1,11 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
-import 'core-js/features/string/repeat';
-import 'core-js/features/string/';
+//import 'react-app-polyfill/ie11';
+//import 'react-app-polyfill/stable';
+//mport 'core-js/features/string/repeat';
+//import 'core-js/features/string/';
+import "core-js/stable";
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'cerner-smart-embeddable-lib';
 import './index.css';
 import './bootstrap-overrides.scss'
 import App from './components/App/App';
