@@ -1,6 +1,9 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
+// import 'react-app-polyfill/ie11';
+// import 'react-app-polyfill/stable';
+import "core-js/stable";
 import FHIR from "fhirclient";
+import 'f-twelve';
+import 'cerner-smart-embeddable-lib';
 
 const clientId: string = process.env.REACT_APP_FHIR_CLIENT_ID || 'a9f3d781-004b-4e1a-9c1a-55875723438b';
 const scopes: string = 'patient/Condition.read patient/Patient.read patient/Observation.read patient/MedicationRequest.read launch online_access openid profile';
