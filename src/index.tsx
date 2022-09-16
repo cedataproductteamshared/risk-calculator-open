@@ -11,6 +11,7 @@ import './bootstrap-overrides.scss'
 import App from './components/App/App';
 // import {IntlProvider} from 'react-intl';
 import reportWebVitals from './reportWebVitals';
+import 'f-twelve';
 // import en from './lang/en.json';
 
 import './env';
