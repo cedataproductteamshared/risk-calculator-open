@@ -15,6 +15,7 @@ import styles from './App.module.scss';
 import ScrollButton from "../shared/ScrollButton/ScrollButton";
 import 'cerner-smart-embeddable-lib';
 import {treatmentsAreEqual, getMsg} from "./utils";
+import 'f-twelve';
 
 interface AppState {
     initialPatientData?: PatientData,
