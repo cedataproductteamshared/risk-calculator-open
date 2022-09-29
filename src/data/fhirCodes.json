@@ -3277,6 +3277,7 @@
           "name": "RxNorm",
           "source": " http://www.nlm.nih.gov/research/umls/rxnorm",
           "codes": [
+            "rivaroxaban",
             "2059014",
             "2059015",
             "2059016",
@@ -3293,6 +3294,7 @@
           "name": "RxNorm",
           "source": "http://www.nlm.nih.gov/research/umls/rxnorm",
           "codes": [
+            "clopidogrel",
             "1163766",
             "1163767",
             "1181790",
@@ -3322,6 +3324,7 @@
           "name": "RxNorm",
           "source": "http://www.nlm.nih.gov/research/umls/rxnorm",
           "codes": [
+            "prasugrel",
             "1165745",
             "1165746",
             "1173221",
@@ -3351,6 +3354,7 @@
           "name": "RxNorm",
           "source": " http://www.nlm.nih.gov/research/umls/rxnorm",
           "codes": [
+            "ticagrelor",
             "1116632",
             "1116633",
             "1116634",
@@ -3379,6 +3383,11 @@
           "name": "RxNorm",
           "source": " http://www.nlm.nih.gov/research/umls/rxnorm",
           "codes": [
+            "dulaglutide", 
+            "exenatide",
+            "semaglutide",
+            "liraglutide",
+            "lixisenatide",
             "combos",
             "1727493",
             "1858992",
@@ -3543,6 +3552,10 @@
           "name": "RxNorm",
           "source": " http://www.nlm.nih.gov/research/umls/rxnorm",
           "codes": [
+            "dapagliflozin", 
+            "empagliflozin",
+            "canagliflozin",
+            "ertugliflozin",
             "1373458",
             "1373459",
             "1373460",
@@ -3797,6 +3810,8 @@
           "name": "RxNorm",
           "source": " http://www.nlm.nih.gov/research/umls/rxnorm",
           "codes": [
+            "alirocumab",
+            "evolocumab",
             "1659152",
             "1659153",
             "1659154",
@@ -3849,6 +3864,7 @@
           "name": "RxNorm",
           "source": " http://www.nlm.nih.gov/research/umls/rxnorm",
           "codes": [
+            "ezetimibe",
             "combo with statins",
             "1163791",
             "1163792",
@@ -3897,6 +3913,7 @@
           "name": "RxNorm",
           "source": " http://www.nlm.nih.gov/research/umls/rxnorm",
           "codes": [
+            "aspirin",
             "combo with pravastatin",
             "904664",
             "904668",
