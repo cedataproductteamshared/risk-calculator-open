@@ -305,18 +305,31 @@ export const FHIRServiceHelper = {
      * And the 'medicationCodeableConcept' will be given to the .byCodes factory method as codes location element.
      */
     prepareMedicationsByCodesResolver: (smart: Client, medicationsResults: { entry: Array<any> }): (...codes: string[]) => any[] => {
-        const medicationsByCodesResolver = Utils.byCodes(
             // Adjust medications results slightly to be able to use them with 'smart.byCodes()` method as
             // it expects an array of objects which have both resourceType 'Observation' and codeable property in their roots.
-            medicationsResults.entry.map((entryValue: any) => (
-                {...entryValue.resource, resourceType: 'Observation'})
-            ),
-            'medicationCodeableConcept'
-        );
+            const observations = medicationsResults.entry.map((entryValue: any) => {
+            const newObs = ({...entryValue.resource, resourceType: 'Observation'});
+            console.log("before logic change: ",newObs)
+            // Add a coding object if needed.
+            if (newObs?.hasOwnProperty('medicationCodeableConcept') &&
+               (newObs?.medicationCodeableConcept.hasOwnProperty('coding') ||
+                newObs?.medicationCodeableConcept.coding.length === 0)) {
+                const idx = newObs.medicationCodeableConcept.text.indexOf('(');
+                const code = (idx !== -1)
+                      ? newObs.medicationCodeableConcept.text.substring(0, idx).trim()
+                      : newObs.medicationCodeableConcept.text.trim();
+                      newObs.medicationCodeableConcept.coding = [{
+                           code,
+                           system: 'http://www.nlm.nih.gov/research/umls/rxnorm'
+                      }];
+                 }
+                    console.log("after logic change: ",newObs)
+                    return newObs;
 
-        return medicationsByCodesResolver;
-    },
-
+               });
+        return Utils.byCodes(observations, 'medicationCodeableConcept');
+    },    
+	    
     resolveMeasurableObservation: (
         kind: 'conditions' | 'labs' | 'meds',
         groupName: string,
