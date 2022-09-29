@@ -309,21 +309,19 @@ export const FHIRServiceHelper = {
             // it expects an array of objects which have both resourceType 'Observation' and codeable property in their roots.
             const observations = medicationsResults.entry.map((entryValue: any) => {
             const newObs = ({...entryValue.resource, resourceType: 'Observation'});
-            console.log("before logic change: ",newObs)
             // Add a coding object if needed.
             if (newObs?.hasOwnProperty('medicationCodeableConcept') &&
                (newObs?.medicationCodeableConcept.hasOwnProperty('coding') ||
                 newObs?.medicationCodeableConcept.coding.length === 0)) {
                 const idx = newObs.medicationCodeableConcept.text.indexOf('(');
                 const code = (idx !== -1)
-                      ? newObs.medicationCodeableConcept.text.substring(0, idx).trim()
-                      : newObs.medicationCodeableConcept.text.trim();
+                      ? newObs.medicationCodeableConcept.text.substring(0, idx).trim().toLowerCase()
+                      : newObs.medicationCodeableConcept.text.trim().toLowerCase();
                       newObs.medicationCodeableConcept.coding = [{
                            code,
                            system: 'http://www.nlm.nih.gov/research/umls/rxnorm'
                       }];
                  }
-                    console.log("after logic change: ",newObs)
                     return newObs;
 
                });
