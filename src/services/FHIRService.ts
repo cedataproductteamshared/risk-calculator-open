@@ -307,14 +307,14 @@ export const FHIRServiceHelper = {
     prepareMedicationsByCodesResolver: (smart: Client, medicationsResults: { entry: Array<any> }): (...codes: string[]) => any[] => {
     // Adjust medications results slightly to be able to use them with 'smart.byCodes()` method as
     // it expects an array of objects which have both resourceType 'Observation' and codeable property in their roots.
-    console.log('medicationsResults before: ',medicationsResults)
+    // console.log('medicationsResults before: ',medicationsResults)
     const observations = medicationsResults.entry.map((entryValue: any) => {
     const newObs = ({...entryValue.resource, resourceType: 'Observation'});
     // Add a coding object if needed.
      if (newObs?.hasOwnProperty('medicationCodeableConcept') &&
-     (!newObs?.medicationCodeableConcept.hasOwnProperty('coding') ||
+      (!newObs?.medicationCodeableConcept.hasOwnProperty('coding') ||
       newObs?.medicationCodeableConcept.coding.length === 0)) {
-      console.log('inside logic block 1')
+      // console.log('inside logic block 1')
       const idx = newObs.medicationCodeableConcept.text.indexOf('(');
       const code = (idx !== -1)
             ? newObs.medicationCodeableConcept.text.substring(0, idx).trim().toLowerCase()
@@ -327,9 +327,9 @@ export const FHIRServiceHelper = {
     else if(newObs?.hasOwnProperty('medicationCodeableConcept') &&
       (newObs?.medicationCodeableConcept.hasOwnProperty('coding') &&
       newObs?.medicationCodeableConcept.coding.length !== 0)) {
-      console.log('inside logic block 2')
+      // console.log('inside logic block 2')
       const index = newObs.medicationCodeableConcept.coding.length;
-      console.log('index: ',index)
+      // console.log('index: ',index)
       const idx = newObs.medicationCodeableConcept.text.indexOf('(');
       const code = (idx !== -1)
             ? newObs.medicationCodeableConcept.text.substring(0, idx).trim().toLowerCase()
@@ -339,7 +339,7 @@ export const FHIRServiceHelper = {
                  system: 'http://www.nlm.nih.gov/research/umls/rxnorm'
             };
     }
-          console.log('newobs end: ',newObs)
+          // console.log('newobs end: ',newObs)
           return newObs;
      });
       return Utils.byCodes(observations, 'medicationCodeableConcept');
@@ -466,7 +466,7 @@ export const FHIRServiceHelper = {
                     label: `${statinGroup.name} ${useDose}mg`
                 };
                 foundStatinIntensities.push(foundStatinIntensity);
-                //console.log(`Resolve statin intensity. [${useDose}, ${doseFromText}] => ${JSON.stringify(foundStatinIntensity)}`)
+                // console.log(`Resolve statin intensity. [${useDose}, ${doseFromText}] => ${JSON.stringify(foundStatinIntensity)}`)
             })
         });
 
